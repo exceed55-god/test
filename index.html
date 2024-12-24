@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selamat Natal</title>
+  <style>
+    /* Pengaturan umum untuk tampilan halaman */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      background-color: #d32f2f; /* Merah untuk background */
+      color: white; /* Warna font putih untuk kontras yang baik */
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Pernak pernik salju */
+    .snow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #fff;
+      font-size: 25px;
+      animation: snow 10s linear infinite;
+    }
+
+    @keyframes snow {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+
+    /* Tampilan awal dengan gambar pohon natal */
+    .intro-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      transition: opacity 1s ease-in-out;
+      z-index: 10;
+    }
+
+    /* Gambar pohon natal responsif dan ukuran yang besar untuk perangkat seluler */
+    .tree {
+      width: 70%; /* Menyesuaikan ukuran gambar dengan layar perangkat seluler */
+      max-width: 350px; /* Ukuran maksimal gambar */
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.5s;
+      margin: 0 auto;
+    }
+
+    .tree:hover {
+      transform: scale(1.1);
+    }
+
+    /* Instruksi awal yang lebih kecil dan responsif */
+    .intro-text {
+      font-size: 6vw; /* Ukuran font responsif menggunakan viewport width */
+      font-weight: bold;
+      margin-top: 20px;
+      color: #fff; /* Warna teks untuk instruksi */
+    }
+
+    /* Animasi pohon natal terbuka saat diklik */
+    .tree-klik {
+      animation: openTree 1s forwards;
+    }
+
+    /* Animasi pohon natal terbuka */
+    @keyframes openTree {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+      50% {
+        transform: scale(1.2) rotate(15deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    /* Halaman dengan ucapan Natal */
+    .natal-container {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      width: 80%;
+      max-width: 800px;
+      z-index: 1;
+    }
+
+    /* Background Natal */
+    .natal-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.w3schools.com/w3images/christmas.jpg') no-repeat center center fixed;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    .text {
+      font-size: 50px;
+      font-weight: bold;
+      text-align: center;
+      animation: moveText 10s infinite linear;
+    }
+
+    /* Animasi teks bergerak */
+    @keyframes moveText {
+      0% {
+        transform: translateX(100%);
+      }
+      50% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .text span {
+      color: #ff0;
+      text-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+      animation: glimmer 1.5s infinite ease-in-out;
+    }
+
+    /* Efek glimmer untuk teks */
+    @keyframes glimmer {
+      0% {
+        text-shadow: 0 0 20px rgba(255, 255, 0, 0.6), 0 0 30px rgba(255, 255, 0, 0.6);
+      }
+      50% {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.9);
+      }
+      100% {
+        text-shadow: 0 0 20px rgba(255, 255, 0, 0.6), 0 0 30px rgba(255, 255, 0, 0.6);
+      }
+    }
+
+    /* Paragraf ucapan Natal */
+    .paragraf {
+      font-size: 20px;
+      margin-top: 20px;
+      line-height: 1.5;
+      color: white;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Gambar Pohon Natal */
+    .tree-img {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 300px;
+      background: url('https://img.lovepik.com/free-png/20210928/lovepik-christmas-tree-png-image_401650409_wh1200.png') no-repeat center center;
+      background-size: contain;
+      z-index: 2;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Backsound lagu Jingle Bells -->
+  <audio autoplay loop>
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Tampilan awal dengan gambar pohon natal -->
+  <div class="intro-container">
+    <!-- Gambar pohon natal yang dapat diklik -->
+    <img src="https://img.lovepik.com/free-png/20210928/lovepik-christmas-tree-png-image_401650409_wh1200.png" alt="Pohon Natal" class="tree" id="tree" onclick="showNatalPage()" ontouchstart="showNatalPage()">
+    <p class="intro-text">Cintaa pliss klik pohon natalnya kalau tidaa, nanti pohonnya sedihh</p>
+  </div>
+
+  <!-- Halaman dengan ucapan Natal -->
+  <div class="natal-container" id="natal-container">
+    <div class="natal-background"></div>
+    <div class="text">
+      <span>Merry Christmas 🎄</span>
+    </div>
+    <p class="paragraf">
+      Merry Christmas, Cinta! 🎄✨ I hope this day is filled with happiness, warmth, and love from those closest to you. 
+      May you enjoy these special moments with joy and peace. Keep shining brightly and stay full of love! ❤️❄️
+    </p>
+  </div>
+
+  <!-- Efek Salju -->
+  <div class="snow" id="snow"></div>
+
+  <script>
+    // Fungsi untuk menampilkan halaman ucapan Natal
+    function showNatalPage() {
+      // Menambahkan animasi pada gambar pohon natal
+      const tree = document.getElementById('tree');
+      tree.classList.add('tree-klik');
+
+      // Menyembunyikan tampilan awal dan menampilkan halaman ucapan Natal setelah animasi selesai
+      setTimeout(function() {
+        document.querySelector('.intro-container').style.display = 'none';
+        document.getElementById('natal-container').style.display = 'block';
+      }, 1000); // Waktu delay untuk animasi pohon natal (1 detik)
+    }
+
+    // Fungsi untuk membuat salju bergerak
+    const snowContainer = document.getElementById("snow");
+    function createSnowflakes() {
+      for (let i = 0; i < 50; i++) {
+        let snowflake = document.createElement("div");
+        snowflake.classList.add("snowflake");
+        snowflake.textContent = "❄️";
+        snowflake.style.left = `${Math.random() * 100}vw`;
+        snowflake.style.animationDuration = `${Math.random() * 3 + 5}s`; // Salju jatuh dengan durasi acak
+        snowContainer.appendChild(snowflake);
+      }
+    }
+
+    createSnowflakes();
+  </script>
+
+</body>
+</html>
